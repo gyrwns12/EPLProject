@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -20,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -35,7 +37,7 @@ public class Main extends WindowAdapter {
 	private JLabel jlbMain;
 	private JButton jbtPlayer, jbtPlayerSearch, jbtClub, jbtClubSearch, jbtPlayerRank, jbtClubRank;
 	private JTextField jtfPlayerSearch, jtfClubSearch;
-	ArrayList<MemberVo> login;
+	private ArrayList<SearchVO> SearchPlayer, SearchClub;
 
 	public Main() {
 		f = new JFrame("잉글랜드 프리미어리그");
@@ -47,7 +49,7 @@ public class Main extends WindowAdapter {
 		jmiEpl = new JMenuItem("리그 홈페이지");
 		jmiClubInfo = new JMenuItem("구단 정보");
 		jmiLastMatch = new JMenuItem("경기 결과");
-		
+
 		jlbMain = new JLabel("20/21 England Premier League", JLabel.CENTER);
 
 		jbtPlayer = new JButton("선수");
@@ -70,18 +72,18 @@ public class Main extends WindowAdapter {
 
 		f.add(jp);
 		f.setJMenuBar(jmb);
-		
+
 		jmb.setBackground(Color.WHITE);
-		
+
 		jmb.add(jm);
 		jm.add(jmiEpl);
 		jm.add(jmiClubInfo);
 		jm.add(jmiLastMatch);
-		
+
 		jmiEpl.addActionListener(new ActionListener() { // 회원가입 버튼 구현
 			public void actionPerformed(ActionEvent e) {
 				String urlLink = "https://www.premierleague.com/";
-				
+
 				try {
 					Desktop.getDesktop().browse(new URI(urlLink));
 				} catch (IOException e1) {
@@ -91,11 +93,11 @@ public class Main extends WindowAdapter {
 				}
 			}
 		});
-		
+
 		jmiClubInfo.addActionListener(new ActionListener() { // 회원가입 버튼 구현
 			public void actionPerformed(ActionEvent e) {
 				String urlLink = "https://www.premierleague.com/clubs?se=363";
-				
+
 				try {
 					Desktop.getDesktop().browse(new URI(urlLink));
 				} catch (IOException e1) {
@@ -105,11 +107,11 @@ public class Main extends WindowAdapter {
 				}
 			}
 		});
-		
+
 		jmiLastMatch.addActionListener(new ActionListener() { // 회원가입 버튼 구현
 			public void actionPerformed(ActionEvent e) {
 				String urlLink = "https://www.premierleague.com/results?co=1&se=363&cl=-1";
-				
+
 				try {
 					Desktop.getDesktop().browse(new URI(urlLink));
 				} catch (IOException e1) {
@@ -175,21 +177,35 @@ public class Main extends WindowAdapter {
 
 		jbtClub.addActionListener(new ActionListener() { // 회원가입 버튼 구현
 			public void actionPerformed(ActionEvent e) {
-
+				AllClub ac = new AllClub();
+				ac.AllClubFrame();
 			}
 		});
 
 		jbtPlayerSearch.addActionListener(new ActionListener() { // 회원가입 버튼 구현
 			public void actionPerformed(ActionEvent e) {
-				SearchPlayer sp = new SearchPlayer();
-				sp.SearchPlayerFrame();
+				SearchDAO crDAO = new SearchDAO();
+				SearchPlayer = crDAO.SearchPlayer(jtfPlayerSearch.getText());
+				if (SearchPlayer.size() != 0) {
+					SearchPlayer sp = new SearchPlayer();
+					sp.SearchPlayerFrame();
+				} else {
+					JOptionPane.showMessageDialog(null, "찾을 수 없는 선수입니다.");
+				}
 			}
 		});
 
 		jbtClubSearch.addActionListener(new ActionListener() { // 회원가입 버튼 구현
 			public void actionPerformed(ActionEvent e) {
-				SearchClub sc = new SearchClub();
-				sc.SearchClubFrame();
+				SearchDAO crDAO = new SearchDAO();
+				SearchClub = crDAO.SearchClub(jtfClubSearch.getText());
+
+				if (SearchClub.size() != 0) {
+					SearchClub sc = new SearchClub();
+					sc.SearchClubFrame();
+				} else {
+					JOptionPane.showMessageDialog(null, "찾을 수 없는 클럽입니다.");
+				}
 			}
 		});
 
@@ -317,23 +333,23 @@ public class Main extends WindowAdapter {
 			}
 		}
 	}
-	
+
 	class SearchPlayer {
 		private JFrame jf;
 		private JPanel jpMain, jpPlayer;
 		private JLabel jlbMain, jlbImg, jlbName, jlbClub, jlbNationality, jlbPosition, jlbHeight, jlbWeight;
-		private JLabel jlbSearchName, jlbSearchClub, jlbSearchNationality, jlbSearchPosition, jlbSearchHeight, jlbSearchWeight;
-		private ArrayList<SearchVO> SearchPlayer;
-		
+		private JLabel jlbSearchName, jlbSearchClub, jlbSearchNationality, jlbSearchPosition, jlbSearchHeight,
+				jlbSearchWeight;
+
 		public SearchPlayer() {
 			jf = new JFrame("선수검색");
-			
+
 			jpMain = new JPanel();
 			jpPlayer = new JPanel();
-			
+
 			jlbMain = new JLabel("선수", JLabel.CENTER);
 			jlbImg = new JLabel();
-			
+
 			jlbName = new JLabel("이름", JLabel.LEFT);
 			jlbClub = new JLabel("클럽", JLabel.LEFT);
 			jlbNationality = new JLabel("국적", JLabel.LEFT);
@@ -341,65 +357,65 @@ public class Main extends WindowAdapter {
 			jlbHeight = new JLabel("키", JLabel.LEFT);
 			jlbWeight = new JLabel("몸무게", JLabel.LEFT);
 		}
-		
+
 		public void SearchPlayerFrame() {
 			jf.setSize(400, 650);
 			jf.setLayout(null);
 			jf.setVisible(true);
-			
+
 			jf.add(jpMain);
 			jf.add(jpPlayer);
-			
+
 			jpMain.setSize(400, 300);
 			jpMain.setLocation(0, 0);
 			jpMain.setLayout(null);
 			jpMain.setBackground(Color.WHITE);
-			
+
 			jpMain.add(jlbMain);
 			jpMain.add(jlbImg);
-			
+
 			ImageIcon icon = new ImageIcon("C:/eplproject/player/" + jtfPlayerSearch.getText() + ".png");
 			Image img = icon.getImage();
 			Image changeImg = img.getScaledInstance(220, 220, Image.SCALE_SMOOTH);
 			ImageIcon changeIcon = new ImageIcon(changeImg);
-			
+
 			jlbImg.setIcon(changeIcon);
 			jlbImg.setLocation(90, 80);
 			jlbImg.setSize(220, 220);
-			
+
 			jlbMain.setFont(new Font("", Font.BOLD, 17));
 			jlbMain.setSize(40, 40);
 			jlbMain.setLocation(180, 10);
-			
+
 			jpPlayer.setSize(400, 330);
 			jpPlayer.setLocation(0, 300);
 			jpPlayer.setLayout(null);
 			jpPlayer.setBackground(Color.WHITE);
-			
+
 			jpPlayer.add(jlbName);
 			jpPlayer.add(jlbClub);
 			jpPlayer.add(jlbNationality);
 			jpPlayer.add(jlbPosition);
 			jpPlayer.add(jlbHeight);
 			jpPlayer.add(jlbWeight);
-			
+
 			jlbName.setSize(40, 30);
 			jlbClub.setSize(40, 30);
 			jlbNationality.setSize(40, 30);
 			jlbPosition.setSize(40, 30);
 			jlbHeight.setSize(40, 30);
 			jlbWeight.setSize(40, 30);
-			
+
 			jlbName.setLocation(90, 20);
 			jlbClub.setLocation(90, 65);
 			jlbNationality.setLocation(90, 110);
 			jlbPosition.setLocation(90, 155);
 			jlbHeight.setLocation(90, 200);
 			jlbWeight.setLocation(90, 245);
-			
-			SearchDAO crDAO = new SearchDAO();
-			SearchPlayer = crDAO.SearchPlayer(jtfPlayerSearch.getText());
-			
+
+//			SearchDAO crDAO = new SearchDAO();
+//			SearchPlayer = crDAO.SearchPlayer(jtfPlayerSearch.getText());
+
 			for (int i = 0; i < SearchPlayer.size(); i++) {
 				SearchVO data = (SearchVO) SearchPlayer.get(i);
 
@@ -417,21 +433,21 @@ public class Main extends WindowAdapter {
 				jlbSearchPosition = new JLabel(posit, JLabel.LEFT);
 				jlbSearchHeight = new JLabel(height, JLabel.LEFT);
 				jlbSearchWeight = new JLabel(weight, JLabel.LEFT);
-				
+
 				jlbSearchName.setSize(200, 30);
 				jlbSearchClub.setSize(200, 30);
 				jlbSearchNationality.setSize(200, 30);
 				jlbSearchPosition.setSize(200, 30);
 				jlbSearchHeight.setSize(200, 30);
 				jlbSearchWeight.setSize(200, 30);
-				
+
 				jlbSearchName.setLocation(150, 20);
 				jlbSearchClub.setLocation(150, 65);
 				jlbSearchNationality.setLocation(150, 110);
 				jlbSearchPosition.setLocation(150, 155);
 				jlbSearchHeight.setLocation(150, 200);
 				jlbSearchWeight.setLocation(150, 245);
-				
+
 				jlbSearchName.setFont(new Font("", Font.BOLD, 12));
 				jlbSearchClub.setFont(new Font("", Font.BOLD, 12));
 				jlbSearchNationality.setFont(new Font("", Font.BOLD, 12));
@@ -447,8 +463,195 @@ public class Main extends WindowAdapter {
 			jpPlayer.add(jlbSearchWeight);
 		}
 	}
-	
-	
+
+	class AllClub {
+		private JFrame jf;
+		private JPanel jp;
+		private JScrollPane jsp;
+		private JLabel jlbArsenal, jlbAston, jlbBrighton, jlbBurnley, jlbChelsea, jlbCrystal, jlbEverton, jlbFulham,
+				jlbLeeds, jlbLeicester, jlbLiverpool, jlbManCity, jlbManUtd, jlbNewcastle, jlbSheffield,
+				jlbSouthampton, jlbTottenham, jlbWBA, jlbWestHam, jlbWolver;
+		private String[] club = { "Arsenal", "Aston Villa", "Brighton & Hove Albion", "Burnley", "Chelsea",
+				"Crystal Palace", "Everton", "Fulham", "Leeds United", "Leicester City", "Liverpool",
+				"Manchester City", "Manchester United", "Newcastle United", "Sheffield United", "Southampton",
+				"Tottenham Hotspur", "West Bromwich Albion", "West Ham United", "Wolverhampton Wanderers" };
+
+		public AllClub() {
+			jf = new JFrame("모든 클럽");
+
+			jp = new JPanel();
+			
+			jsp = new JScrollPane(jp ,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			
+			for (int i = 0; i < club.length; i++) {
+				ImageIcon icon = new ImageIcon("C:/eplproject/allclub/" + club[i] + ".JPG");
+				Image img = icon.getImage();
+				Image changeImg = img.getScaledInstance(200, 230, Image.SCALE_SMOOTH);
+				ImageIcon changeIcon = new ImageIcon(changeImg);
+				
+				switch (i) {
+				case 0:
+					jlbArsenal = new JLabel();
+					jlbArsenal.setIcon(changeIcon);
+					break;
+				case 1:
+					jlbAston = new JLabel();
+					jlbAston.setIcon(changeIcon);
+					break;
+				case 2:
+					jlbBrighton = new JLabel();
+					jlbBrighton.setIcon(changeIcon);
+					break;
+				case 3:
+					jlbBurnley = new JLabel();
+					jlbBurnley.setIcon(changeIcon);
+					break;
+				case 4:
+					jlbChelsea = new JLabel();
+					jlbChelsea.setIcon(changeIcon);
+					break;
+				case 5:
+					jlbCrystal = new JLabel();
+					jlbCrystal.setIcon(changeIcon);
+					break;
+				case 6:
+					jlbEverton = new JLabel();
+					jlbEverton.setIcon(changeIcon);
+					break;
+				case 7:
+					jlbFulham = new JLabel();
+					jlbFulham.setIcon(changeIcon);
+					break;
+				case 8:
+					jlbLeeds = new JLabel();
+					jlbLeeds.setIcon(changeIcon);
+					break;
+				case 9:
+					jlbLeicester = new JLabel();
+					jlbLeicester.setIcon(changeIcon);
+					break;
+				case 10:
+					jlbLiverpool = new JLabel();
+					jlbLiverpool.setIcon(changeIcon);
+					break;
+				case 11:
+					jlbManCity = new JLabel();
+					jlbManCity.setIcon(changeIcon);
+					break;
+				case 12:
+					jlbManUtd = new JLabel();
+					jlbManUtd.setIcon(changeIcon);
+					break;
+				case 13:
+					jlbNewcastle = new JLabel();
+					jlbNewcastle.setIcon(changeIcon);
+					break;
+				case 14:
+					jlbSheffield = new JLabel();
+					jlbSheffield.setIcon(changeIcon);
+					break;
+				case 15:
+					jlbSouthampton = new JLabel();
+					jlbSouthampton.setIcon(changeIcon);
+					break;
+				case 16:
+					jlbTottenham = new JLabel();
+					jlbTottenham.setIcon(changeIcon);
+					break;
+				case 17:
+					jlbWBA = new JLabel();
+					jlbWBA.setIcon(changeIcon);
+					break;
+				case 18:
+					jlbWestHam = new JLabel();
+					jlbWestHam.setIcon(changeIcon);
+					break;
+				case 19:
+					jlbWolver = new JLabel();
+					jlbWolver.setIcon(changeIcon);
+					break;
+				}
+			}
+		}
+		
+		public void AllClubFrame() {
+			jf.setSize(900, 800);
+			jf.setVisible(true);
+			
+			jf.add("Center", jsp);
+			
+			Dimension size = new Dimension();
+			size.setSize(880, 1200);
+			
+			jp.setPreferredSize(size);
+			jsp.setViewportView(jp);
+			jsp.setBackground(Color.WHITE);
+			
+			jp.add(jlbArsenal);
+			jp.add(jlbAston);
+			jp.add(jlbBrighton);
+			jp.add(jlbBurnley);
+			jp.add(jlbChelsea);
+			jp.add(jlbCrystal);
+			jp.add(jlbEverton);
+			jp.add(jlbFulham);
+			jp.add(jlbLeeds);
+			jp.add(jlbLeicester);
+			jp.add(jlbLiverpool);
+			jp.add(jlbManCity);
+			jp.add(jlbManUtd);
+			jp.add(jlbNewcastle);
+			jp.add(jlbSheffield);
+			jp.add(jlbSouthampton);
+			jp.add(jlbTottenham);
+			jp.add(jlbWBA);
+			jp.add(jlbWestHam);
+			jp.add(jlbWolver);			
+			
+			jlbArsenal.setSize(200, 230);
+			jlbAston.setSize(200, 230);
+			jlbBrighton.setSize(200, 230);
+			jlbBurnley.setSize(200, 230);
+			jlbChelsea.setSize(200, 230);
+			jlbCrystal.setSize(200, 230);
+			jlbEverton.setSize(200, 230);
+			jlbFulham.setSize(200, 230);
+			jlbLeeds.setSize(200, 230);
+			jlbLeicester.setSize(200, 230);
+			jlbLiverpool.setSize(200, 230);
+			jlbManCity.setSize(200, 230);
+			jlbManUtd.setSize(200, 230);
+			jlbNewcastle.setSize(200, 230);
+			jlbSheffield.setSize(200, 230);
+			jlbSouthampton.setSize(200, 230);
+			jlbTottenham.setSize(200, 230);
+			jlbWBA.setSize(200, 230);
+			jlbWestHam.setSize(200, 230);
+			jlbWolver.setSize(200, 230);
+			
+			jlbArsenal.setLocation(10, 20);
+			jlbAston.setLocation(220, 20);
+			jlbBrighton.setLocation(430, 20);
+			jlbBurnley.setLocation(640, 20);
+			jlbChelsea.setLocation(10, 270);
+			jlbCrystal.setLocation(220, 270);
+			jlbEverton.setLocation(430, 270);
+			jlbFulham.setLocation(640, 270);
+			jlbLeeds.setLocation(10, 520);
+			jlbLeicester.setLocation(220, 520);
+			jlbLiverpool.setLocation(430, 520);
+			jlbManCity.setLocation(640, 520);
+			jlbManUtd.setLocation(10, 770);
+			jlbNewcastle.setLocation(220, 770);
+			jlbSheffield.setLocation(430, 770);
+			jlbSouthampton.setLocation(640, 770);
+			jlbTottenham.setLocation(10, 1020);
+			jlbWBA.setLocation(220, 1020);
+			jlbWestHam.setLocation(430, 1020);
+			jlbWolver.setLocation(640, 1020);
+		}
+	}
+
 	class SearchClub {
 		private JFrame f;
 		private JPanel jpClub, jpClubMain;
@@ -456,7 +659,6 @@ public class Main extends WindowAdapter {
 		private JTextField jtfBackNumber, jtfName, jtfPosit, jtfNationality;
 		private JLabel jlbBackNumber, jlbName, jlbPosit, jlbNationality;
 		private GridLayout gl;
-		private ArrayList<SearchVO> SearchClub;
 
 		public SearchClub() {
 			f = new JFrame(jtfClubSearch.getText());
