@@ -40,13 +40,14 @@ public class SearchDAO {
 		}
 		return searchPlayer;
 	}
-	
+
 	public ArrayList<SearchVO> SearchPlayer(String name) {
 		ArrayList<SearchVO> searchPlayer = new ArrayList<SearchVO>();
 		try {
 			connDB();
 			String name2 = name.replace("'", "''");
-			String query = "SELECT player_name, birth, club_name, nationality, posit, height, weight FROM player WHERE player_name = '" + name2 + "'";
+			String query = "SELECT player_name, birth, club_name, nationality, posit, height, weight FROM player WHERE player_name = '"
+					+ name2 + "'";
 			rs = stmt.executeQuery(query);
 
 			while (rs.next()) {
@@ -73,7 +74,8 @@ public class SearchDAO {
 		try {
 			connDB();
 
-			String query = "SELECT player_name, backnumber, posit, nationality FROM player WHERE club_name = \'" + name + "\'";
+			String query = "SELECT player_name, backnumber, posit, nationality FROM player WHERE club_name = \'" + name
+					+ "\'";
 			rs = stmt.executeQuery(query);
 
 			while (rs.next()) {
@@ -84,6 +86,7 @@ public class SearchDAO {
 
 				SearchVO data = new SearchVO(backnumber, player_name, posit, nationality);
 				searchPlayer.add(data);
+
 			}
 
 		} catch (Exception e) {
