@@ -6,8 +6,8 @@ public class RankVO {
 	private String player_name, club_name;
 	private int goals, assist, player_played;
 
-	public RankVO(String club, int played, int points, int won, int drawn, int lost, int goalsfor,
-			int goalsconceded, int goalsdifference) {
+	public RankVO(String club, int played, int points, int won, int drawn, int lost, int goalsfor, int goalsconceded,
+			int goalsdifference) {
 		this.club = club;
 		this.played = played;
 		this.points = points;
