@@ -469,26 +469,26 @@ public class Main extends WindowAdapter {
 		private JPanel jp;
 		private JScrollPane jsp;
 		private JLabel jlbArsenal, jlbAston, jlbBrighton, jlbBurnley, jlbChelsea, jlbCrystal, jlbEverton, jlbFulham,
-				jlbLeeds, jlbLeicester, jlbLiverpool, jlbManCity, jlbManUtd, jlbNewcastle, jlbSheffield,
-				jlbSouthampton, jlbTottenham, jlbWBA, jlbWestHam, jlbWolver;
+				jlbLeeds, jlbLeicester, jlbLiverpool, jlbManCity, jlbManUtd, jlbNewcastle, jlbSheffield, jlbSouthampton,
+				jlbTottenham, jlbWBA, jlbWestHam, jlbWolver;
 		private String[] club = { "Arsenal", "Aston Villa", "Brighton & Hove Albion", "Burnley", "Chelsea",
-				"Crystal Palace", "Everton", "Fulham", "Leeds United", "Leicester City", "Liverpool",
-				"Manchester City", "Manchester United", "Newcastle United", "Sheffield United", "Southampton",
-				"Tottenham Hotspur", "West Bromwich Albion", "West Ham United", "Wolverhampton Wanderers" };
+				"Crystal Palace", "Everton", "Fulham", "Leeds United", "Leicester City", "Liverpool", "Manchester City",
+				"Manchester United", "Newcastle United", "Sheffield United", "Southampton", "Tottenham Hotspur",
+				"West Bromwich Albion", "West Ham United", "Wolverhampton Wanderers" };
 
 		public AllClub() {
 			jf = new JFrame("모든 클럽");
 
 			jp = new JPanel();
-			
-			jsp = new JScrollPane(jp ,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			
+
+			jsp = new JScrollPane(jp, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
 			for (int i = 0; i < club.length; i++) {
 				ImageIcon icon = new ImageIcon("C:/eplproject/allclub/" + club[i] + ".JPG");
 				Image img = icon.getImage();
 				Image changeImg = img.getScaledInstance(200, 230, Image.SCALE_SMOOTH);
 				ImageIcon changeIcon = new ImageIcon(changeImg);
-				
+
 				switch (i) {
 				case 0:
 					jlbArsenal = new JLabel();
@@ -573,20 +573,20 @@ public class Main extends WindowAdapter {
 				}
 			}
 		}
-		
+
 		public void AllClubFrame() {
 			jf.setSize(900, 800);
 			jf.setVisible(true);
-			
+
 			jf.add("Center", jsp);
-			
+
 			Dimension size = new Dimension();
 			size.setSize(880, 1200);
-			
+
 			jp.setPreferredSize(size);
 			jsp.setViewportView(jp);
 			jsp.setBackground(Color.WHITE);
-			
+
 			jp.add(jlbArsenal);
 			jp.add(jlbAston);
 			jp.add(jlbBrighton);
@@ -606,8 +606,8 @@ public class Main extends WindowAdapter {
 			jp.add(jlbTottenham);
 			jp.add(jlbWBA);
 			jp.add(jlbWestHam);
-			jp.add(jlbWolver);			
-			
+			jp.add(jlbWolver);
+
 			jlbArsenal.setSize(200, 230);
 			jlbAston.setSize(200, 230);
 			jlbBrighton.setSize(200, 230);
@@ -628,7 +628,7 @@ public class Main extends WindowAdapter {
 			jlbWBA.setSize(200, 230);
 			jlbWestHam.setSize(200, 230);
 			jlbWolver.setSize(200, 230);
-			
+
 			jlbArsenal.setLocation(10, 20);
 			jlbAston.setLocation(220, 20);
 			jlbBrighton.setLocation(430, 20);
