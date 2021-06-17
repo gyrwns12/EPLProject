@@ -94,6 +94,7 @@ public class MemberDAO {
 			rs = stmt.executeQuery(query);
 			JOptionPane.showMessageDialog(null, "가입되셨습니다.");
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "가입을 실패했습니다.");
 			e.printStackTrace();
 		}
 		return signup;
