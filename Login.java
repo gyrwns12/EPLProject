@@ -28,7 +28,7 @@ public class Login extends WindowAdapter {
 		f = new JFrame("로그인");
 
 		jp = new JPanel();
-		
+
 		lbID = new JLabel("ID");
 		lbPwd = new JLabel("Password");
 		lbimg = new JLabel();
@@ -43,15 +43,15 @@ public class Login extends WindowAdapter {
 
 	public void startFrame() { // 로그인 프레임 컴포넌트 사이즈, 위치 조정
 		MemberDAO dao = new MemberDAO();
-		
+
 		ImageIcon icon = new ImageIcon("C:/eplproject/club/premier league.jpg");
 		Image img = icon.getImage();
 		Image changeImg = img.getScaledInstance(300, 130, Image.SCALE_SMOOTH);
 		ImageIcon changeIcon = new ImageIcon(changeImg);
-		
+
 		f.setSize(450, 400);
 		f.add(jp);
-		
+
 		jp.setSize(440, 370);
 		jp.setBackground(Color.WHITE);
 		jp.setLayout(null);
@@ -60,10 +60,10 @@ public class Login extends WindowAdapter {
 		lbPwd.setSize(56, 25);
 		lbID.setLocation(100, 230);
 		lbPwd.setLocation(55, 275);
-		
+
 		lbID.setFont(new Font("", Font.BOLD, 12));
 		lbPwd.setFont(new Font("", Font.BOLD, 12));
-		
+
 		lbimg.setSize(300, 130);
 		lbimg.setLocation(60, 30);
 		lbimg.setIcon(changeIcon);
@@ -141,10 +141,10 @@ public class Login extends WindowAdapter {
 		btSignUp.setSize(90, 25);
 		btLogin.setLocation(280, 230);
 		btSignUp.setLocation(280, 275);
-		
+
 		btLogin.setBackground(Color.WHITE);
 		btSignUp.setBackground(Color.WHITE);
-		
+
 		btLogin.setFont(new Font("", Font.BOLD, 12));
 		btSignUp.setFont(new Font("", Font.BOLD, 12));
 
@@ -173,7 +173,7 @@ public class Login extends WindowAdapter {
 
 						f.dispose();
 					} else {
-						msg.setText("ID 또는 Password를 확인하세요");
+						msg.setText("Password를 확인하세요");
 					}
 				}
 			}
