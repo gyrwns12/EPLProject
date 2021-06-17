@@ -46,11 +46,11 @@ public class PlayerRank {
 
 //		jpPlayerRank.setSize(600, 500);
 //		jpPlayerRank.setLocation(0, 150);
-		
+
 		jpPlayerRankMain.setBackground(Color.WHITE);
-		
+
 		jpPlayerRankMain.add(jlbPlayerRankMain);
-		
+
 		jpPlayerRank.setLayout(gl);
 		jpPlayerRank.setVisible(true);
 		jpPlayerRank.setBackground(Color.WHITE);
@@ -72,21 +72,21 @@ public class PlayerRank {
 		jtfGoals.setFont(new Font("", Font.BOLD, 11));
 		jtfAssist.setFont(new Font("", Font.BOLD, 11));
 		jtfPlayer_Played.setFont(new Font("", Font.BOLD, 11));
-		
+
 		jtfRank.setBackground(Color.WHITE);
 		jtfPlayer_Name.setBackground(Color.WHITE);
 		jtfClub_Name.setBackground(Color.WHITE);
 		jtfGoals.setBackground(Color.WHITE);
 		jtfAssist.setBackground(Color.WHITE);
 		jtfPlayer_Played.setBackground(Color.WHITE);
-		
+
 		jtfRank.setHorizontalAlignment(JTextField.CENTER);
 		jtfPlayer_Name.setHorizontalAlignment(JTextField.LEFT);
 		jtfClub_Name.setHorizontalAlignment(JTextField.LEFT);
 		jtfGoals.setHorizontalAlignment(JTextField.CENTER);
 		jtfAssist.setHorizontalAlignment(JTextField.CENTER);
 		jtfPlayer_Played.setHorizontalAlignment(JTextField.CENTER);
-		
+
 		jtfRank.setEditable(false);
 		jtfPlayer_Name.setEditable(false);
 		jtfClub_Name.setEditable(false);
@@ -116,9 +116,9 @@ public class PlayerRank {
 			Image img = icon.getImage();
 			Image changeImg = img.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 			ImageIcon changeIcon = new ImageIcon(changeImg);
-			
+
 			jlbClub_Name.setIcon(changeIcon);
-			
+
 			jlbRank.setFont(new Font("", Font.BOLD, 10));
 			jlbPlayer_Name.setFont(new Font("", Font.BOLD, 8));
 			jlbClub_Name.setFont(new Font("", Font.BOLD, 8));
